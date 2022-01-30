@@ -12,9 +12,15 @@ const onSubmit = (values) => {
   console.log('values is: ', values);
 };
 
+const fields = {
+  name: 'Name',
+  email: 'Email',
+  phone: 'Phone',
+};
+
 function Signup() {
   return (
-    <div className="bg-red-200 flex flex-col h-full w-full">
+    <div className="h-full w-full">
       <Formik
         initialValues={initial}
         enableReinitialize
@@ -30,47 +36,29 @@ function Signup() {
         }) => (
           <form
             onSubmit={handleSubmit}
+            className="flex flex-col py-4"
           >
-            <label>
-              Name
-              <input
-                type="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                name="name"
-                placeholder="Please enter your name"
-                autoComplete={false}
-                autoFocus
-              />
-              {touched?.name && errors?.name && <div>{errors?.name}</div>}
-            </label>
-            <label>
-              Email
-              <input
-                type="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                name="email"
-                placeholder="Please enter your email"
-                autoComplete={false}
-                autoFocus
-              />
-              {touched?.email && errors?.email && <div>{errors?.email}</div>}
-            </label>
-            <label>
-              Phone
-              <input
-                type="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                name="phone"
-                placeholder="Please enter your phone number"
-                autoComplete="false"
-                autoFocus
-              />
-              {touched?.phone && errors?.phone && <div>{errors?.phone}</div>}
-            </label>
-            <input type="submit" value="Submit" />
+            {Object.keys(fields).map((field) => (
+              <label
+                className="py-2 text-white text-lg flex flex-row"
+                key={field}
+              >
+                <p className="w-12 flex items-center text-center">{fields[field]}</p>
+                <input
+                  type="text"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  name={field}
+                  placeholder={`Please enter your ${field}`}
+                  autoComplete="false"
+                  autoFocus
+                  className="ml-4 text-indigo-900 px-4"
+                />
+                <div className="text-red-700 h-8 flex items-center px-4">{(touched?.[field] && errors?.[field]) && <p>{errors?.[field]}</p>}</div>
+              </label>
+            ))}
+
+            <input type="submit" value="Submit" className="text-white border border-white cursor-pointer w-[fit-content] px-4 py-2 self-start my-4" />
           </form>
         )}
       </Formik>
